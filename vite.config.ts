@@ -1,8 +1,8 @@
-import { defineConfig } from "vite";
-import { fileURLToPath, URL } from "node:url";
-import svgr from "vite-plugin-svgr";
-import react from "@vitejs/plugin-react-swc";
-import process from "node:process";
+import { defineConfig } from 'vite';
+import { fileURLToPath, URL } from 'node:url';
+import svgr from 'vite-plugin-svgr';
+import react from '@vitejs/plugin-react-swc';
+import process from 'node:process';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,12 +10,12 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
 
   build: {
-    outDir: "build",
+    outDir: 'build',
   },
 
   server: {
@@ -23,6 +23,6 @@ export default defineConfig({
   },
 
   define: {
-    "process.env": process.env,
+    'process.env': process.env,
   },
 });

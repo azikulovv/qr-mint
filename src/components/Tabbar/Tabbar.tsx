@@ -1,62 +1,50 @@
-import { useCallback, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
-import * as Konsta from "konsta/react";
-import { HiHome, HiQrCode, HiBanknotes, HiCog } from "react-icons/hi2";
-import type { FunctionComponent } from "react";
+import { useTranslation } from 'react-i18next';
+import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-enum tabs {
-  home = "HOME",
-  "scanner" = "SCANNR",
-  "qrMint" = "QR-MINT",
-  "settings" = "SETTINGS",
-}
+import * as Konsta from 'konsta/react';
+import { HiHome, HiQrCode, HiBanknotes, HiCog } from 'react-icons/hi2';
+import type { FunctionComponent } from 'react';
 
 export const Tabbar: FunctionComponent = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const [vibrate] = useHapticFeedback();
+  const { t } = useTranslation();
 
-  const [tabbar, setTabbar] = useState<string>(tabs.home);
-
-  const handleClick = (name: string) => {
-    vibrate("heavy");
-    setTabbar(name);
+  const handleClick = (path: string) => {
+    vibrate('heavy');
+    navigate(path);
   };
-
-  const isActive = useCallback(
-    ({ pathname, tabName }: { pathname: string; tabName: string }) =>
-      location.pathname === pathname && tabbar === tabName,
-    [location.pathname, tabbar]
-  );
 
   return (
     <Konsta.Tabbar className="left-0 bottom-0 fixed">
       <Konsta.TabbarLink
-        onClick={() => handleClick(tabs.home)}
-        active={isActive({ pathname: "/", tabName: tabs.home })}
-        icon={<HiHome />}
-        label={"Home"}
+        icon={<HiHome className="w-[1.5rem] h-[1.5rem]" />}
+        label={t('tabbar.home')}
+        active={location.pathname === '/'}
+        onClick={() => handleClick('/')}
       />
 
       <Konsta.TabbarLink
-        onClick={() => handleClick(tabs.scanner)}
-        active={isActive({ pathname: "/scanner", tabName: tabs.scanner })}
-        icon={<HiQrCode />}
-        label={"Scanner"}
+        icon={<HiQrCode className="w-[1.5rem] h-[1.5rem]" />}
+        label={t('tabbar.scanner')}
+        active={location.pathname === '/scanner'}
+        onClick={() => handleClick('/scanner')}
       />
 
       <Konsta.TabbarLink
-        onClick={() => handleClick(tabs.qrMint)}
-        active={isActive({ pathname: "/qr-mint", tabName: tabs.qrMint })}
-        icon={<HiBanknotes />}
-        label={"QR Mint"}
+        icon={<HiBanknotes className="w-[1.5rem] h-[1.5rem]" />}
+        label={t('tabbar.qr-mint')}
+        active={location.pathname === '/qr-mint'}
+        onClick={() => handleClick('/qr-mint')}
       />
 
       <Konsta.TabbarLink
-        onClick={() => handleClick(tabs.settings)}
-        active={isActive({ pathname: "/settings", tabName: tabs.settings })}
-        icon={<HiCog />}
-        label={"Settings"}
+        icon={<HiCog className="w-[1.5rem] h-[1.5rem]" />}
+        label={t('tabbar.settings')}
+        active={location.pathname === '/settings'}
+        onClick={() => handleClick('/settings')}
       />
     </Konsta.Tabbar>
   );
