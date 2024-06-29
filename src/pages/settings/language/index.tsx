@@ -1,18 +1,21 @@
 import { useNavigate } from 'react-router-dom';
+import { useSettingsStore } from '@/store/settings/settings';
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app';
 
 import { BackButton } from '@vkruglikov/react-telegram-web-app';
-import { BlockTitle, List, MenuListItem, Navbar, Page } from 'konsta/react';
+import { BlockTitle, List, MenuListItem, Page } from 'konsta/react';
 import type { FunctionComponent } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import i18next from '@/i18n';
 
 export const Language: FunctionComponent = () => {
   const navigate = useNavigate();
   const [vibrate] = useHapticFeedback();
+  const {t} = useTranslation();
+  const { setLanguage, language } = useSettingsStore();
 
   const handleSelect = (lang: string) => {
-    i18next.changeLanguage(lang);
+    setLanguage(lang);
     vibrate('heavy');
     navigate('/settings');
   };
@@ -25,13 +28,11 @@ export const Language: FunctionComponent = () => {
           vibrate('heavy');
         }}
       />
-      <Navbar title="Language" />
-
-      <BlockTitle>Select language:</BlockTitle>
+      <BlockTitle>{t('settings.menu-list.language')}</BlockTitle>
 
       <List outline strong menuList>
-        <MenuListItem onClick={() => handleSelect('ru')} title="Russian" />
-        <MenuListItem onClick={() => handleSelect('en')} title="English" />
+        <MenuListItem onClick={() => handleSelect('ru')} active={language === 'ru'} title={t('languages.russian')} />
+        <MenuListItem onClick={() => handleSelect('en')} active={language === 'en'} title={t('languages.english')} />
       </List>
     </Page>
   );

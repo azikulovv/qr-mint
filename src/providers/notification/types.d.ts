@@ -1,4 +1,4 @@
-export type NotifyType = 'success' | 'error' | 'warning' | 'default';
+export type NotifyType = "success" | "error" | "warning" | "default";
 
 export type Notify = {
   type: NotifyType;

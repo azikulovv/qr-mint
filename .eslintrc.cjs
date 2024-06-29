@@ -13,7 +13,7 @@ module.exports = {
     "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
     quotes: ["error", "single"],
     "no-unused-vars": ["warn"],
-    "@typescript-eslint/no-unused-vars": ['warn'],
-    "semi": "warn",
+    "@typescript-eslint/no-unused-vars": ["off"],
+    semi: "warn",
   },
 };

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useHapticFeedback, useScanQrPopup } from '@vkruglikov/react-telegram-web-app';
 
 import { BackButton } from '@vkruglikov/react-telegram-web-app';
-import { Block, Button, Navbar, Page } from 'konsta/react';
+import { Block, Button, Page } from 'konsta/react';
 import type { FunctionComponent } from 'react';
 
 import { Tabbar } from '@/components/Tabbar';
@@ -45,8 +45,6 @@ export const Scanner: FunctionComponent = () => {
           vibrate('heavy');
         }}
       />
-
-      <Navbar title="Scanner" />
 
       <Block>
         <p>

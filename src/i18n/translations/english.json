@@ -2,5 +2,10 @@
   "tabbar.home": "Home",
   "tabbar.scanner": "Scanner",
   "tabbar.qr-mint": "QR Mint",
-  "tabbar.settings": "Settings"
+  "tabbar.settings": "Settings",
+
+  "settings.title": "Settings",
+  "settings.menu-list.language": "Language",
+  "languages.russian": "Russian",
+  "languages.english": "English"
 }
