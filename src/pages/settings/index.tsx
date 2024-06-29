@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
+import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app';
 
-import { BackButton, useHapticFeedback } from '@vkruglikov/react-telegram-web-app';
-import { MenuList, MenuListItem, Navbar, Page } from 'konsta/react';
 import { HiLanguage } from 'react-icons/hi2';
+import { BackButton } from '@vkruglikov/react-telegram-web-app';
+import { List, MenuListItem, Navbar, Page } from 'konsta/react';
 import type { FunctionComponent } from 'react';
 
 import { Tabbar } from '@/components/Tabbar';
@@ -13,10 +14,15 @@ export const Settings: FunctionComponent = () => {
 
   return (
     <Page>
-      <BackButton onClick={() => navigate('/')} />
+      <BackButton
+        onClick={() => {
+          navigate('/');
+          vibrate('heavy');
+        }}
+      />
       <Navbar title="Settings" />
 
-      <MenuList outline strong>
+      <List outline strong menuList>
         <MenuListItem
           onClick={() => {
             vibrate('heavy');
@@ -25,7 +31,8 @@ export const Settings: FunctionComponent = () => {
           title="Language"
           media={<HiLanguage className="w-[1.5rem] h-[1.5rem]" />}
         />
-      </MenuList>
+      </List>
+
       <Tabbar />
     </Page>
   );

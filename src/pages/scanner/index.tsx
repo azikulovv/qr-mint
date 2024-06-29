@@ -1,41 +1,50 @@
-import { useHapticFeedback, useScanQrPopup } from '@vkruglikov/react-telegram-web-app';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useHapticFeedback, useScanQrPopup } from '@vkruglikov/react-telegram-web-app';
 
 import { BackButton } from '@vkruglikov/react-telegram-web-app';
-import { Block, Button, Navbar, Notification, Page } from 'konsta/react';
-import {HiCheckCircle} from 'react-icons/hi2';
+import { Block, Button, Navbar, Page } from 'konsta/react';
 import type { FunctionComponent } from 'react';
 
 import { Tabbar } from '@/components/Tabbar';
+import { useNotification } from '@/providers/notification';
 
 export const Scanner: FunctionComponent = () => {
   const navigate = useNavigate();
-  const [show] = useScanQrPopup();
+  const [show, close] = useScanQrPopup();
   const [vibrate] = useHapticFeedback();
 
   const [qrValue, setQrValue] = useState<string>();
-  const [isNotificationOpened, setIsNotificationOpened] = useState<boolean>(false);
+  const { notify } = useNotification();
 
   const handleScan = () => {
     vibrate('heavy');
-    show({ text: 'Please scan QR code!' }, (value) => {
-      setQrValue(value);
-    });
+
+    try {
+      show({ text: 'Please scan QR code!' }, (value) => {
+        if (!value) return;
+
+        setQrValue(value);
+        close();
+      });
+    } catch (error) {
+      console.error(error);
+      notify({ type: 'error', message: 'The scanner could not be opened!' });
+    }
   };
 
   const handleCopy = () => {
-    setIsNotificationOpened(true);
-
-    setTimeout(() => {
-      setIsNotificationOpened(false);
-    }, 2000);
+    notify({ type: 'success', message: 'Successfully copied!' });
   };
 
   return (
     <Page>
-      <BackButton onClick={() => navigate('/')} />
-      <Notification icon={<HiCheckCircle/>} opened={isNotificationOpened} title="QR Mint" subtitle="Successfully copied!" />
+      <BackButton
+        onClick={() => {
+          navigate('/');
+          vibrate('heavy');
+        }}
+      />
 
       <Navbar title="Scanner" />
 
@@ -46,13 +55,15 @@ export const Scanner: FunctionComponent = () => {
         </p>
         <br />
 
-        <Button outline onClick={handleCopy}>
+        <Button outline large onClick={handleCopy}>
           Copy
         </Button>
 
         <br />
 
-        <Button onClick={handleScan}>Open Scanner</Button>
+        <Button large onClick={handleScan}>
+          Open Scanner
+        </Button>
       </Block>
 
       <Tabbar />
